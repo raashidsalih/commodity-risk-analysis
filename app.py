@@ -50,7 +50,7 @@ st.sidebar.markdown("<h1 style='text-align: center; color: white;'>Commodity Ris
 # Dropdown to choose a commodity
 selected_commodity = st.sidebar.selectbox(label = "Choose a Commodity: ", options = commodities, index=None)
 
-st.sidebar.markdown("This is a tool designed for Commodity Risk Analysis.  \nIt provides an interface to visualize the number of articles published over time relating to a particular commodity and analyze sentiment trends related to said commodities.  \nIt serves as a proxy to understand potential disruptions (negative or otherwise) to a commodity's supply chain such that preventative measures can be enforced proactively.")
+st.sidebar.markdown("This is a tool designed for Commodity Risk Analysis.  \nIt provides an interface to visualize the number of articles published over time relating to a particular commodity and analyze sentiment trends related to said commodity.  \nIt serves as a proxy to understand potential disruptions (negative or otherwise) to a commodity's supply chain such that preventative measures can be enforced proactively.")
 
 if selected_commodity == None:
     st.title("Please select a commodity from the sidebar to get started!")
