@@ -45,7 +45,7 @@ def plot_sentiment_over_time(df):
 keywords_df = pd.read_csv('keywords.csv')
 commodities = keywords_df.columns.tolist()
 
-pd.read_excel("./data/Steel_final.xlsx")
+st.write(pd.read_excel("./data/Steel_final.xlsx"))
 
 st.sidebar.markdown("<h1 style='text-align: center; color: grey;'>FreightFox</h1>", unsafe_allow_html=True)
 st.sidebar.markdown("<h1 style='text-align: center; color: white;'>Commodity Risk Analysis</h1>", unsafe_allow_html=True)
