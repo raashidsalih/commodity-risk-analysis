@@ -1,7 +1,5 @@
-# Welcome to streamlit
+# Commodity Risk Analysis
 
-This is the app you get when you run `streamlit hello`, extracted as its own app.
-
-Edit [Hello.py](./Hello.py) to customize this app to your heart's desire. ❤️
-
-Check it out on [Streamlit Community Cloud](https://st-hello-app.streamlit.app/)
+- This is a tool designed for Commodity Risk Analysis.
+- It provides an interface to visualize the number of articles published over time relating to a particular commodity and analyze sentiment trends related to said commodity.
+- It serves as a proxy to understand potential disruptions (negative or otherwise) to a commodity's supply chain such that preventative measures can be enforced proactively.
