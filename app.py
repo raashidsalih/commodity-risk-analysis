@@ -72,6 +72,3 @@ if selected_commodity:
         st.error(f'Data not found: {selected_commodity}')
     except Exception as e:
         st.error(f'An error occurred: {e}')
-
-if __name__ == "__main__":
-    run()
