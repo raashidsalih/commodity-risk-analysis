@@ -13,39 +13,65 @@
 # limitations under the License.
 
 import streamlit as st
-from streamlit.logger import get_logger
+import pandas as pd
+import matplotlib.pyplot as plt
 
-LOGGER = get_logger(__name__)
+# Function to plot the number of articles over time
+def plot_articles_over_time(df):
+    df['published_date'] = pd.to_datetime(df['published_date'])
+    articles_over_time = df.groupby(df['published_date'].dt.date).size()
+    plt.figure(figsize=(14, 7))
+    articles_over_time.plot(title='Number of Articles Over Time')
+    plt.xlabel('Date')
+    plt.ylabel('Number of Articles')
+    st.pyplot(plt)
+
+# Function to plot the sentiment over time
+def plot_sentiment_over_time(df):
+    df['published_date'] = pd.to_datetime(df['published_date'])
+    sentiment_over_time = df.groupby([df['published_date'].dt.date, 'sentiment']).size().unstack().fillna(0)
+    plt.figure(figsize=(14, 7))
+    sentiment_over_time.plot(title='Number of Positive, Negative, and Neutral Articles Over Time')
+    plt.xlabel('Date')
+    plt.ylabel('Number of Articles')
+    plt.legend(title='Sentiment')
+    plt.gcf().set_size_inches(14,7)
+    st.pyplot(plt)
+
+# Streamlit interface design
+# st.markdown("<h1 style='text-align: center; color: grey;'>FreightFox</h1>", unsafe_allow_html=True)
+
+# Load the list of commodities from the header row of 'keywords.csv'
+keywords_df = pd.read_csv('keywords.csv')
+commodities = keywords_df.columns.tolist()
+
+st.sidebar.markdown("<h1 style='text-align: center; color: grey;'>FreightFox</h1>", unsafe_allow_html=True)
+st.sidebar.markdown("<h1 style='text-align: center; color: white;'>Commodity Risk Analysis</h1>", unsafe_allow_html=True)
+# Dropdown to choose a commodity
+selected_commodity = st.sidebar.selectbox(label = "Choose a Commodity: ", options = commodities, index=None)
 
 
-def run():
-    st.set_page_config(
-        page_title="Hello",
-        page_icon="👋",
-    )
+# Load the data for the selected commodity
+if selected_commodity:
+    file_path = f'data/{selected_commodity}_Final.xlsx'
+    try:
+        commodity_df = pd.read_excel(file_path)
+        st.success(f'Data loaded for {selected_commodity}')
 
-    st.write("# Welcome to Streamlit! 👋")
+        # Display the plots
+        st.subheader('Number of Articles Over Time')
+        plot_articles_over_time(commodity_df)
 
-    st.sidebar.success("Select a demo above.")
+        st.subheader('Sentiment Over Time')
+        plot_sentiment_over_time(commodity_df)
 
-    st.markdown(
-        """
-        Streamlit is an open-source app framework built specifically for
-        Machine Learning and Data Science projects.
-        **👈 Select a demo from the sidebar** to see some examples
-        of what Streamlit can do!
-        ### Want to learn more?
-        - Check out [streamlit.io](https://streamlit.io)
-        - Jump into our [documentation](https://docs.streamlit.io)
-        - Ask a question in our [community
-          forums](https://discuss.streamlit.io)
-        ### See more complex demos
-        - Use a neural net to [analyze the Udacity Self-driving Car Image
-          Dataset](https://github.com/streamlit/demo-self-driving)
-        - Explore a [New York City rideshare dataset](https://github.com/streamlit/demo-uber-nyc-pickups)
-    """
-    )
+        st.subheader('Explore Data')
+        st.dataframe(commodity_df)
 
+    except FileNotFoundError:
+        st.error(f'Data not found: {selected_commodity}')
+    except Exception as e:
+        st.error(f'An error occurred: {e}')
 
 if __name__ == "__main__":
     run()
