@@ -53,7 +53,7 @@ selected_commodity = st.sidebar.selectbox(label = "Choose a Commodity: ", option
 
 # Load the data for the selected commodity
 if selected_commodity:
-    file_path = f'data/{selected_commodity}_Final.xlsx'
+    file_path = f'./data/{selected_commodity}_Final.xlsx'
     try:
         commodity_df = pd.read_excel(file_path)
         st.success(f'Data loaded for {selected_commodity}')
